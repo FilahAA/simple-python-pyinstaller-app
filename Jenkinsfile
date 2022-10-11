@@ -15,9 +15,9 @@ node {
     withDockerContainer{
         stage('Deploy') { 
             checkout scm
-            sh "docker run --rm -v $(pwd)/sources:/src cdrx/pyinstaller-linux:python2 'pyinstaller --onefile sources/add2vals.py'"
-            archiveArtifacts artifacts: '${env.BUILD_ID}/sources/dist/add2vals'
-            sh "docker run --rm -v $(pwd)/sources:/src cdrx/pyinstaller-linux:python2 'rm -rf build dist'"
+            sh "docker run --rm -v /var/jenkins_home/workspace/submission-cicd-pipeline-filahaditia/sources:/src cdrx/pyinstaller-linux:python2 'pyinstaller --onefile sources/add2vals.py'"
+            archiveArtifacts artifacts: '/sources/dist/add2vals'
+            sh "docker run --rm -v /var/jenkins_home/workspace/submission-cicd-pipeline-filahaditia/sources:/src cdrx/pyinstaller-linux:python2 'rm -rf build dist'"
         }
     }
 }
