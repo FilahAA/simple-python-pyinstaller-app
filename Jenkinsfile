@@ -16,7 +16,7 @@ node {
         stage('Deploy') { 
             checkout scm
             sh 'pyinstaller --onefile sources/add2vals.py'
-            archiveArtifacts 'dist/add2vals'
+            archiveArtifacts artifacts: 'sources/add2vals.py'
         }
     }
 }
