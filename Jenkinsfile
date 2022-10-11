@@ -12,11 +12,12 @@ node {
             junit 'test-reports/results.xml' 
         }
     }
-    withDockerContainer('cdrx/pyinstaller-linux:python2'){
+    withDockerContainer{
         stage('Deploy') { 
             checkout scm
-            sh 'pyinstaller --onefile sources/add2vals.py'
-            archiveArtifacts artifacts: 'dist/add2vals'
+            sh "docker run --rm -v $(pwd)/sources:/src cdrx/pyinstaller-linux:python2 'pyinstaller --onefile sources/add2vals.py'"
+            archiveArtifacts artifacts: '${env.BUILD_ID}/sources/dist/add2vals'
+            sh "docker run --rm -v $(pwd)/sources:/src cdrx/pyinstaller-linux:python2 'rm -rf build dist'"
         }
     }
 }
