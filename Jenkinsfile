@@ -12,12 +12,11 @@ node {
             junit 'test-reports/results.xml' 
         }
     }
-    withDockerContainer('cdrx/pyinstaller-linux:python2'){
+    withDockerContainer('/var/jenkins_home/workspace/submission-cicd-pipeline-filahaditia/sources:/src cdrx/pyinstaller-linux:python2'){
         stage('Deploy') { 
             checkout scm
-            sh 'docker run --rm -v /var/jenkins_home/workspace/submission-cicd-pipeline-filahaditia/sources:/src cdrx/pyinstaller-linux:python2 \'pyinstaller -F add2vals.py\''
-            archiveArtifacts artifacts: 'sources/add2vals.py'
-            sh 'docker run --rm -v /var/jenkins_home/workspace/submission-cicd-pipeline-filahaditia/sources:/src cdrx/pyinstaller-linux:python2 \'rm -rf build dist\''
+            sh 'pyinstaller --onefile sources/add2vals.py'
+            archiveArtifacts artifacts: 'dist/add2vals.py'
         }
     }
 }
