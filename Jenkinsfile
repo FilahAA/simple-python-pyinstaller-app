@@ -12,12 +12,10 @@ node {
             junit 'test-reports/results.xml' 
         }
     }
-    withDockerContainer{
-        stage('Deploy') { 
-            checkout scm
-            sh "docker run --rm -v /var/jenkins_home/workspace/submission-cicd-pipeline-filahaditia/sources:/src cdrx/pyinstaller-linux:python2 'pyinstaller --onefile sources/add2vals.py'"
-            archiveArtifacts artifacts: '/sources/dist/add2vals'
-            sh "docker run --rm -v /var/jenkins_home/workspace/submission-cicd-pipeline-filahaditia/sources:/src cdrx/pyinstaller-linux:python2 'rm -rf build dist'"
-        }
+    stage('Deploy') { 
+        checkout scm
+        sh "docker run --rm -v /var/jenkins_home/workspace/submission-cicd-pipeline-filahaditia/sources:/src cdrx/pyinstaller-linux:python2 'pyinstaller --onefile sources/add2vals.py'"
+        archiveArtifacts artifacts: '/sources/dist/add2vals'
+        sh "docker run --rm -v /var/jenkins_home/workspace/submission-cicd-pipeline-filahaditia/sources:/src cdrx/pyinstaller-linux:python2 'rm -rf build dist'"
     }
 }
