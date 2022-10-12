@@ -3,6 +3,7 @@ node {
         stage('Build') { 
             checkout scm
             sh 'python -m py_compile sources/add2vals.py sources/calc.py'
+            stash(name: 'compiled-results', includes: 'sources/*.py*')
         }
     }
     withDockerContainer('qnib/pytest'){
