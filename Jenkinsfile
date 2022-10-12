@@ -15,7 +15,7 @@ node {
     stage('Deploy') { 
         input message: 'Lanjutkan ke tahap Deploy ?'
         checkout scm
-        withEnv(['VOLUME=/var/jenkins_home/workspace/submission-cicd-pipeline-filahaditia/sources:/src']['IMAGE=cdrx/pyinstaller-linux:python2']) {}
+        withEnv(['VOLUME=/var/jenkins_home/workspace/submission-cicd-pipeline-filahaditia/sources:/src' , 'IMAGE=cdrx/pyinstaller-linux:python2']) {}
         dir(path: env.BUILD_ID) { 
                 unstash(name: 'compiled-results')
                 sh "docker run --rm -v $VOLUME $IMAGE 'pyinstaller --onefile add2vals.py'"
