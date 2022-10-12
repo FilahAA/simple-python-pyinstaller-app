@@ -23,7 +23,7 @@ node {
             }
             if (currentBuild.result == null || currentBuild.result == 'SUCCESS') { 
                 archiveArtifacts artifacts: "sources/dist/add2vals"
-                sh "scp -i app-server.pem sources/dist/add2vals ubuntu@ec2-54-254-139-194.ap-southeast-1.compute.amazonaws.com"
+                sh "scp -i app-server.pem -r sources/dist/add2vals ubuntu@ec2-54-254-139-194.ap-southeast-1.compute.amazonaws.com"
                 sh "ssh -i app-server.pem ubuntu@ec2-54-254-139-194.ap-southeast-1.compute.amazonaws.com 'sudo chmod a+x add2vals && ./add2vals'"
                 sh "docker run --rm -v $VOLUME $IMAGE 'rm -rf build dist'"
             }
