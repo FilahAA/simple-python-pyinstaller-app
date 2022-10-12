@@ -22,8 +22,8 @@ node {
                     sh "docker run --rm -v $VOLUME $IMAGE 'pyinstaller --onefile add2vals.py'"
             }
             if (currentBuild.result == null || currentBuild.result == 'SUCCESS') { 
-                archiveArtifacts artifacts: "${env.BUILD_ID}/sources/dist/add2vals"
-                sh "scp -i app-server.pem ${env.BUILD_ID}/sources/dist/add2vals ubuntu@54.254.139.194:/"
+                archiveArtifacts artifacts: "${env.BUILD_ID}/artifact/sources/dist/add2vals"
+                sh "scp -i app-server.pem ${env.BUILD_ID}/artifact/sources/dist/add2vals ubuntu@54.254.139.194:/"
                 sh "ssh ubuntu@54.254.139.194 'sudo chmod a+x add2vals && ./add2vals'"
                 sh "docker run --rm -v $VOLUME $IMAGE 'rm -rf build dist'"
             }
