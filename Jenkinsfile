@@ -24,8 +24,11 @@ node {
             if (currentBuild.result == null || currentBuild.result == 'SUCCESS') { 
                 archiveArtifacts artifacts: "sources/dist/add2vals"
                 sshagent(credentials: ['ubuntu-app-server']) {
-                    sh "scp ${env.BUILD_ID}/sources/dist/add2vals ubuntu@ec2-54-254-139-194.ap-southeast-1.compute.amazonaws.com"
-                    sh 'ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-254-139-194.ap-southeast-1.compute.amazonaws.com "sudo chmod a+x add2vals && ./add2vals"'
+                    sh 'ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-254-139-194.ap-southeast-1.compute.amazonaws.com "rm -rf python"'
+                    sh 'ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-254-139-194.ap-southeast-1.compute.amazonaws.com "mkdir -p python"'
+                    sh "scp ${env.BUILD_ID}/sources/dist/add2vals ubuntu@ec2-54-254-139-194.ap-southeast-1.compute.amazonaws.com:/home/ubuntu/python"
+                    sh 'ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-254-139-194.ap-southeast-1.compute.amazonaws.com "cd python / sudo chmod a+x add2vals"'
+                    sh 'ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-254-139-194.ap-southeast-1.compute.amazonaws.com "./add2vals"'
                 }
                 sh "docker run --rm -v $VOLUME $IMAGE 'rm -rf build dist'"
             }
