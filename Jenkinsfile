@@ -21,7 +21,7 @@ node {
                     sh "docker run --rm -v $VOLUME $IMAGE 'pyinstaller --onefile add2vals.py'"
             }
             if (currentBuild.result == null || currentBuild.result == 'SUCCESS') { 
-                archiveArtifacts artifacts: "sources/dist/add2vals"
+                archiveArtifacts artifacts: "${env.BUILD_ID}/sources/dist/add2vals"
                 sh "docker run --rm -v $VOLUME $IMAGE 'rm -rf build dist'"
             }
             input message: 'Lanjutkan ke tahap Deploy ?'
